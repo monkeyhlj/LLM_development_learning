@@ -1,0 +1,11 @@
+*.py[cod]
+*.log
+.idea
+.vscode
+.env*
+*.sqlite*
+static/
+tests/*
+venv
+logs
+agent_env
