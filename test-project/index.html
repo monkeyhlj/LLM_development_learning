@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAISON NOIR — 臻品佳酿</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Josefin+Sans:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #0a0a08;
+            --charcoal: #1a1a18;
+            --deep-burgundy: #3a0e1e;
+            --burgundy: #6b1d3a;
+            --wine: #8b2252;
+            --gold: #c9a96e;
+            --gold-light: #e0c992;
+            --cream: #f5f0e8;
+            --ivory: #ede6d8;
+            --warm-gray: #9a9590;
+            --text-light: rgba(245, 240, 232, 0.85);
+            --text-muted: rgba(245, 240, 232, 0.45);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Josefin Sans', sans-serif;
+            background: var(--black);
+            color: var(--cream);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background: var(--gold);
+            color: var(--black);
+        }
+
+        /* ========== SCROLLBAR ========== */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--black); }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+        /* ========== NAVIGATION ========== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 28px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        nav.scrolled {
+            padding: 18px 60px;
+            background: rgba(10, 10, 8, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(201, 169, 110, 0.12);
+        }
+
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 0.45em;
+            color: var(--cream);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .nav-logo span {
+            color: var(--gold);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 48px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--gold);
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cart {
+            font-size: 0.72rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            width: 18px;
+            height: 18px;
+            border: 1px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+        }
+
+        /* ========== HERO ========== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 800px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(135deg, 
+                    rgba(58, 14, 30, 0.7) 0%, 
+                    rgba(10, 10, 8, 0.85) 40%, 
+                    rgba(10, 10, 8, 0.6) 70%,
+                    rgba(107, 29, 58, 0.4) 100%
+                ),
+                url('https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?w=1920&q=80') center/cover no-repeat;
+            transform: scale(1.05);
+            animation: heroZoom 20s ease-in-out infinite alternate;
+        }
+
+        @keyframes heroZoom {
+            0% { transform: scale(1.05); }
+            100% { transform: scale(1.12); }
+        }
+
+        .hero-grain {
+            position: absolute;
+            inset: 0;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-size: 128px 128px;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            text-align: center;
+            z-index: 2;
+            max-width: 900px;
+            padding: 0 40px;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 400;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 32px;
+            opacity: 0;
+            animation: fadeUp 1s 0.3s forwards;
+        }
+
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(3.2rem, 7.5vw, 6.5rem);
+            font-weight: 300;
+            line-height: 1.05;
+            letter-spacing: -0.02em;
+            color: var(--cream);
+            margin-bottom: 36px;
+            opacity: 0;
+            animation: fadeUp 1s 0.5s forwards;
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
+        .hero-divider {
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin: 0 auto 36px;
+            opacity: 0;
+            animation: fadeUp 1s 0.7s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            font-weight: 200;
+            letter-spacing: 0.08em;
+            color: var(--text-light);
+            line-height: 1.8;
+            max-width: 520px;
+            margin: 0 auto 52px;
+            opacity: 0;
+            animation: fadeUp 1s 0.9s forwards;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            border: 1px solid rgba(201, 169, 110, 0.4);
+            padding: 18px 48px;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            opacity: 0;
+            animation: fadeUp 1s 1.1s forwards;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .hero-cta:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+            box-shadow: 0 0 40px rgba(201, 169, 110, 0.15);
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            animation: fadeIn 1s 1.5s forwards;
+        }
+
+        .hero-scroll span {
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            writing-mode: vertical-rl;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 50px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 1; transform: scaleY(1); }
+            50% { opacity: 0.3; transform: scaleY(0.6); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ========== MARQUEE ========== */
+        .marquee-section {
+            padding: 60px 0;
+            border-top: 1px solid rgba(201, 169, 110, 0.08);
+            border-bottom: 1px solid rgba(201, 169, 110, 0.08);
+            overflow: hidden;
+        }
+
+        .marquee-track {
+            display: flex;
+            animation: marquee 30s linear infinite;
+            width: max-content;
+        }
+
+        .marquee-item {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+            white-space: nowrap;
+            padding: 0 60px;
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .marquee-item::after {
+            content: '◆';
+            font-size: 0.4rem;
+            color: var(--gold);
+            opacity: 0.4;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* ========== FEATURED COLLECTION ========== */
+        .collection {
+            padding: 140px 60px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 80px;
+        }
+
+        .section-header-left {
+            max-width: 500px;
+        }
+
+        .section-eyebrow {
+            font-size: 0.65rem;
+            font-weight: 400;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-eyebrow::before {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: var(--gold);
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(2.4rem, 4vw, 3.6rem);
+            font-weight: 300;
+            line-height: 1.15;
+            color: var(--cream);
+        }
+
+        .section-title em {
+            font-style: italic;
+            color: var(--gold-light);
+        }
+
+        .section-link {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: gap 0.3s;
+        }
+
+        .section-link:hover {
+            gap: 20px;
+        }
+
+        .section-link svg {
+            width: 20px;
+            height: 10px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 32px;
+        }
+
+        .product-card {
+            position: relative;
+            cursor: pointer;
+            group: true;
+        }
+
+        .product-image {
+            position: relative;
+            aspect-ratio: 3/4.2;
+            overflow: hidden;
+            background: var(--charcoal);
+            margin-bottom: 24px;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.06);
+        }
+
+        .product-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,10,8,0.5) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .product-card:hover .product-image-overlay {
+            opacity: 1;
+        }
+
+        .product-tag {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 0.55rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--gold);
+            padding: 6px 14px;
+        }
+
+        .product-wishlist {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            border: 1px solid rgba(245, 240, 232, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cream);
+            font-size: 0.8rem;
+            opacity: 0;
+            transform: translateY(-8px);
+            transition: all 0.4s;
+            cursor: pointer;
+            background: transparent;
+        }
+
+        .product-card:hover .product-wishlist {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-wishlist:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .product-info {
+            text-align: center;
+        }
+
+        .product-region {
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .product-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            font-weight: 400;
+            color: var(--cream);
+            margin-bottom: 6px;
+            letter-spacing: 0.02em;
+        }
+
+        .product-vintage {
+            font-size: 0.72rem;
+            font-weight: 200;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+            letter-spacing: 0.1em;
+        }
+
+        .product-price {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--gold-light);
+            letter-spacing: 0.05em;
+        }
+
+        .product-add {
+            display: block;
+            width: 100%;
+            margin-top: 16px;
+            padding: 12px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            background: transparent;
+            border: 1px solid rgba(201, 169, 110, 0.25);
+            cursor: pointer;
+            transition: all 0.4s;
+            opacity: 0;
+            transform: translateY(8px);
+        }
+
+        .product-card:hover .product-add {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .product-add:hover {
+            background: var(--gold);
+            color: var(--black);
+            border-color: var(--gold);
+        }
+
+        /* ========== HERITAGE / STORY ========== */
+        .heritage {
+            position: relative;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .heritage-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 700px;
+        }
+
+        .heritage-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heritage-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .heritage:hover .heritage-image img {
+            transform: scale(1.04);
+        }
+
+        .heritage-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent 60%, rgba(10,10,8,0.3) 100%);
+        }
+
+        .heritage-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 80px;
+            background: linear-gradient(135deg, var(--charcoal) 0%, var(--deep-burgundy) 100%);
+            position: relative;
+        }
+
+        .heritage-content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            opacity: 0.3;
+        }
+
+        .heritage-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 8rem;
+            font-weight: 300;
+            color: rgba(201, 169, 110, 0.08);
+            line-height: 1;
+            margin-bottom: -30px;
+        }
+
+        .heritage .section-eyebrow {
+            margin-bottom: 24px;
+        }
+
+        .heritage .section-title {
+            margin-bottom: 32px;
+        }
+
+        .heritage-text {
+            font-size: 0.95rem;
+            font-weight: 200;
+            line-height: 2;
+            color: var(--text-light);
+            max-width: 440px;
+            margin-bottom: 48px;
+        }
+
+        .heritage-stats {
+            display: flex;
+            gap: 60px;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--gold);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* ========== EXPERIENCE SECTION ========== */
+        .experience {
+            padding: 160px 60px;
+            max-width: 1600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .experience .section-eyebrow {
+            justify-content: center;
+        }
+
+        .experience .section-eyebrow::before {
+            display: none;
+        }
+
+        .experience .section-title {
+            margin-bottom: 24px;
+        }
+
+        .experience-subtitle {
+            font-size: 1rem;
+            font-weight: 200;
+            color: var(--text-light);
+            max-width: 560px;
+            margin: 0 auto 80px;
+            line-height: 1.9;
+        }
+
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .experience-card {
+            padding: 56px 40px;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s;
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(58, 14, 30, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .experience-card:hover::before {
+            opacity: 1;
+        }
+
+        .experience-card:hover {
+            border-color: rgba(201, 169, 110, 0.25);
+            transform: translateY(-4px);
+        }
+
+        .exp-icon {
+            font-size: 2rem;
+            margin-bottom: 28px;
+            display: block;
+        }
+
+        .exp-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 400;
+            color: var(--cream);
+            margin-bottom: 16px;
+        }
+
+        .exp-desc {
+            font-size: 0.85rem;
+            font-weight: 200;
+            color: var(--text-muted);
+            line-height: 1.9;
+        }
+
+        /* ========== EDITORIAL SECTION ========== */
+        .editorial {
+            padding: 0 60px 160px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .editorial-layout {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 24px;
+        }
+
+        .editorial-main {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/10;
+        }
+
+        .editorial-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s;
+        }
+
+        .editorial-main:hover img {
+            transform: scale(1.04);
+        }
+
+        .editorial-main-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(10,10,8,0.7) 0%, transparent 50%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 60px;
+        }
+
+        .editorial-main-overlay .section-eyebrow {
+            margin-bottom: 16px;
+        }
+
+        .editorial-main-overlay .section-eyebrow::before {
+            display: none;
+        }
+
+        .editorial-main-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 300;
+            color: var(--cream);
+            margin-bottom: 12px;
+        }
+
+        .editorial-main-excerpt {
+            font-size: 0.85rem;
+            font-weight: 200;
+            color: var(--text-light);
+            max-width: 400px;
+            line-height: 1.8;
+        }
+
+        .editorial-side {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .editorial-card {
+            flex: 1;
+            display: flex;
+            gap: 24px;
+            padding: 28px;
+            border: 1px solid rgba(201, 169, 110, 0.08);
+            transition: all 0.4s;
+            cursor: pointer;
+        }
+
+        .editorial-card:hover {
+            border-color: rgba(201, 169, 110, 0.2);
+            background: rgba(26, 26, 24, 0.5);
+        }
+
+        .editorial-card-image {
+            width: 100px;
+            min-height: 100px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .editorial-card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s;
+        }
+
+        .editorial-card:hover .editorial-card-image img {
+            transform: scale(1.08);
+        }
+
+        .editorial-card-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .editorial-card-tag {
+            font-size: 0.55rem;
+            font-weight: 400;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 8px;
+        }
+
+        .editorial-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: var(--cream);
+            line-height: 1.4;
+        }
+
+        /* ========== NEWSLETTER ========== */
+        .newsletter {
+            position: relative;
+            padding: 120px 60px;
+            background: linear-gradient(135deg, var(--deep-burgundy) 0%, var(--charcoal) 50%, var(--deep-burgundy) 100%);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .newsletter::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9a96e'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .newsletter .section-eyebrow {
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .newsletter .section-eyebrow::before {
+            display: none;
+        }
+
+        .newsletter .section-title {
+            margin-bottom: 20px;
+        }
+
+        .newsletter-desc {
+            font-size: 0.9rem;
+            font-weight: 200;
+            color: var(--text-light);
+            max-width: 440px;
+            margin: 0 auto 48px;
+            line-height: 1.9;
+        }
+
+        .newsletter-form {
+            display: flex;
+            max-width: 520px;
+            margin: 0 auto;
+            border: 1px solid rgba(201, 169, 110, 0.25);
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 18px 28px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            color: var(--cream);
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+
+        .newsletter-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .newsletter-btn {
+            padding: 18px 40px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--black);
+            background: var(--gold);
+            border: none;
+            cursor: pointer;
+            transition: all 0.4s;
+        }
+
+        .newsletter-btn:hover {
+            background: var(--gold-light);
+            box-shadow: 0 0 30px rgba(201, 169, 110, 0.2);
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            padding: 100px 60px 40px;
+            border-top: 1px solid rgba(201, 169, 110, 0.08);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 60px;
+            max-width: 1600px;
+            margin: 0 auto 80px;
+        }
+
+        .footer-brand {
+            max-width: 300px;
+        }
+
+        .footer-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            font-weight: 300;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: var(--cream);
+            margin-bottom: 20px;
+        }
+
+        .footer-logo span {
+            color: var(--gold);
+        }
+
+        .footer-brand-text {
+            font-size: 0.8rem;
+            font-weight: 200;
+            color: var(--text-muted);
+            line-height: 1.9;
+            margin-bottom: 28px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 16px;
+        }
+
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(201, 169, 110, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--warm-gray);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .footer-social a:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .footer-col-title {
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--cream);
+            margin-bottom: 28px;
+        }
+
+        .footer-col a {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 200;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 6px 0;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--gold);
+        }
+
+        .footer-bottom {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding-top: 40px;
+            border-top: 1px solid rgba(201, 169, 110, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copy {
+            font-size: 0.7rem;
+            font-weight: 200;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        .footer-payment {
+            display: flex;
+            gap: 16px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+        }
+
+        /* ========== REVEAL ANIMATION ========== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-delay-1 { transition-delay: 0.1s; }
+        .reveal-delay-2 { transition-delay: 0.2s; }
+        .reveal-delay-3 { transition-delay: 0.3s; }
+        .reveal-delay-4 { transition-delay: 0.4s; }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 900px) {
+            nav { padding: 20px 30px; }
+            nav.scrolled { padding: 16px 30px; }
+            .nav-links { display: none; }
+            .collection, .experience, .editorial { padding-left: 30px; padding-right: 30px; }
+            .heritage-grid { grid-template-columns: 1fr; }
+            .heritage-image { height: 400px; }
+            .heritage-content { padding: 60px 30px; }
+            .editorial-layout { grid-template-columns: 1fr; }
+            .experience-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+            .section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+        }
+
+        @media (max-width: 600px) {
+            .products-grid { grid-template-columns: 1fr; gap: 48px; }
+            .hero-title { font-size: 2.6rem; }
+            .newsletter-form { flex-direction: column; }
+            .newsletter-btn { padding: 16px; }
+            .heritage-stats { flex-direction: column; gap: 24px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav>
+        <a href="#" class="nav-logo">Maison <span>Noir</span></a>
+        <ul class="nav-links">
+            <li><a href="#">臻选佳酿</a></li>
+            <li><a href="#">品牌故事</a></li>
+            <li><a href="#">品鉴体验</a></li>
+            <li><a href="#">酒庄专栏</a></li>
+            <li><a href="#">联系我们</a></li>
+        </ul>
+        <a href="#" class="nav-cart">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            <span class="cart-count">0</span>
+        </a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-grain"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">自 1892 年 · 法国波尔多</p>
+            <h1 class="hero-title">时间酿造的<em>非凡</em><br>每一滴皆是传奇</h1>
+            <div class="hero-divider"></div>
+            <p class="hero-subtitle">传承百年酿酒工艺，甄选全球顶级佳酿<br>为您呈现最纯粹的味觉艺术</p>
+            <a href="#" class="hero-cta">
+                探索臻选
+                <svg width="20" height="10" viewBox="0 0 20 10" fill="none"><path d="M0 5h18M13 1l5 4-5 4" stroke="currentColor" stroke-width="1"/></svg>
+            </a>
+        </div>
+        <div class="hero-scroll">
+            <span>向下探索</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-item">Bordeaux</div>
+            <div class="marquee-item">Burgundy</div>
+            <div class="marquee-item">Champagne</div>
+            <div class="marquee-item">Tuscany</div>
+            <div class="marquee-item">Napa Valley</div>
+            <div class="marquee-item">Rioja</div>
+            <div class="marquee-item">Barossa Valley</div>
+            <div class="marquee-item">Rhone Valley</div>
+            <div class="marquee-item">Bordeaux</div>
+            <div class="marquee-item">Burgundy</div>
+            <div class="marquee-item">Champagne</div>
+            <div class="marquee-item">Tuscany</div>
+            <div class="marquee-item">Napa Valley</div>
+            <div class="marquee-item">Rioja</div>
+            <div class="marquee-item">Barossa Valley</div>
+            <div class="marquee-item">Rhone Valley</div>
+        </div>
+    </div>
+
+    <!-- FEATURED COLLECTION -->
+    <section class="collection">
+        <div class="section-header reveal">
+            <div class="section-header-left">
+                <p class="section-eyebrow">Featured Collection</p>
+                <h2 class="section-title">本季<em>臻选</em>佳酿</h2>
+            </div>
+            <a href="#" class="section-link">
+                查看全部
+                <svg viewBox="0 0 20 10" fill="none"><path d="M0 5h18M13 1l5 4-5 4" stroke="currentColor" stroke-width="1"/></svg>
+            </a>
+        </div>
+
+        <div class="products-grid">
+            <div class="product-card reveal reveal-delay-1">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1586370434639-0fe43b2d32e6?w=600&q=80" alt="Château Margaux 2015">
+                    <div class="product-image-overlay"></div>
+                    <span class="product-tag">限量</span>
+                    <button class="product-wishlist">♡</button>
+                </div>
+                <div class="product-info">
+                    <p class="product-region">波尔多 · 玛歌产区</p>
+                    <h3 class="product-name">Château Margaux</h3>
+                    <p class="product-vintage">2015 · Premier Grand Cru Classé</p>
+                    <p class="product-price">¥ 28,800</p>
+                    <button class="product-add">加入酒窖</button>
+                </div>
+            </div>
+
+            <div class="product-card reveal reveal-delay-2">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80" alt="Domaine Romanée-Conti 2018">
+                    <div class="product-image-overlay"></div>
+                    <span class="product-tag">珍稀</span>
+                    <button class="product-wishlist">♡</button>
+                </div>
+                <div class="product-info">
+                    <p class="product-region">勃艮第 · 沃恩-罗曼尼</p>
+                    <h3 class="product-name">Romanée-Conti Grand Cru</h3>
+                    <p class="product-vintage">2018 · Domaine de la Romanée-Conti</p>
+                    <p class="product-price">¥ 168,000</p>
+                    <button class="product-add">加入酒窖</button>
+                </div>
+            </div>
+
+            <div class="product-card reveal reveal-delay-3">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1474722883778-792e7990302f?w=600&q=80" alt="Opus One 2019">
+                    <div class="product-image-overlay"></div>
+                    <button class="product-wishlist">♡</button>
+                </div>
+                <div class="product-info">
+                    <p class="product-region">纳帕谷 · 橡树镇</p>
+                    <h3 class="product-name">Opus One</h3>
+                    <p class="product-vintage">2019 · Napa Valley</p>
+                    <p class="product-price">¥ 5,680</p>
+                    <button class="product-add">加入酒窖</button>
+                </div>
+            </div>
+
+            <div class="product-card reveal reveal-delay-4">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=600&q=80" alt="Sassicaia 2017">
+                    <div class="product-image-overlay"></div>
+                    <span class="product-tag">新到</span>
+                    <button class="product-wishlist">♡</button>
+                </div>
+                <div class="product-info">
+                    <p class="product-region">托斯卡纳 · 宝格丽</p>
+                    <h3 class="product-name">Sassicaia</h3>
+                    <p class="product-vintage">2017 · Tenuta San Guido</p>
+                    <p class="product-price">¥ 3,280</p>
+                    <button class="product-add">加入酒窖</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HERITAGE -->
+    <section class="heritage reveal">
+        <div class="heritage-grid">
+            <div class="heritage-image">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1000&q=80" alt="酒庄传承">
+                <div class="heritage-image-overlay"></div>
+            </div>
+            <div class="heritage-content">
+                <div class="heritage-number">1892</div>
+                <p class="section-eyebrow">Our Heritage</p>
+                <h2 class="section-title">百年<em>传承</em><br>匠心酿造</h2>
+                <p class="heritage-text">
+                    自1892年创立以来，我们始终恪守最严苛的酿酒传统。每一瓶佳酿都凝聚着三代酿酒大师的心血与智慧，从葡萄园的每一株藤蔓，到酒窖中的每一个橡木桶，我们对品质的追求从未止步。
+                </p>
+                <div class="heritage-stats">
+                    <div class="stat">
+                        <div class="stat-number">132</div>
+                        <div class="stat-label">年传承历史</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">47</div>
+                        <div class="stat-label">全球甄选产区</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">2,800+</div>
+                        <div class="stat-label">臻选佳酿</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section class="experience">
+        <div class="reveal">
+            <p class="section-eyebrow">Exclusive Services</p>
+            <h2 class="section-title">尊享<em>品鉴</em>体验</h2>
+            <p class="experience-subtitle">我们为每一位爱酒人士提供独特的尊享服务，让品鉴之旅超越想象</p>
+        </div>
+        <div class="experience-grid">
+            <div class="experience-card reveal reveal-delay-1">
+                <span class="exp-icon">🍷</span>
+                <h3 class="exp-title">私人品鉴会</h3>
+                <p class="exp-desc">由资深侍酒师为您量身定制专属品鉴之旅，探索世界顶级酒庄的珍稀年份，开启味蕾的奢华旅程。</p>
+            </div>
+            <div class="experience-card reveal reveal-delay-2">
+                <span class="exp-icon">🏗</span>
+                <h3 class="exp-title">私人酒窖定制</h3>
+                <p class="exp-desc">从选址设计到恒温恒湿系统，我们为您打造专业级私人酒窖，让每一瓶珍藏都处于最佳陈年环境。</p>
+            </div>
+            <div class="experience-card reveal reveal-delay-3">
+                <span class="exp-icon">✈</span>
+                <h3 class="exp-title">酒庄探访之旅</h3>
+                <p class="exp-desc">亲身踏上法国波尔多、勃艮第的传奇土地，深入百年酒庄，与酿酒大师面对面交流，感受佳酿诞生的每一个瞬间。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- EDITORIAL -->
+    <section class="editorial">
+        <div class="section-header reveal">
+            <div class="section-header-left">
+                <p class="section-eyebrow">Wine Journal</p>
+                <h2 class="section-title">酒庄<em>专栏</em></h2>
+            </div>
+            <a href="#" class="section-link">
+                全部文章
+                <svg viewBox="0 0 20 10" fill="none"><path d="M0 5h18M13 1l5 4-5 4" stroke="currentColor" stroke-width="1"/></svg>
+            </a>
+        </div>
+        <div class="editorial-layout">
+            <div class="editorial-main reveal">
+                <img src="https://images.unsplash.com/photo-1474722883778-792e7990302f?w=1200&q=80" alt="品酒专栏">
+                <div class="editorial-main-overlay">
+                    <p class="section-eyebrow">品鉴指南</p>
+                    <h3 class="editorial-main-title">2026年波尔多期酒品鉴报告</h3>
+                    <p class="editorial-main-excerpt">深入分析本年度最值得关注的波尔多期酒，从左岸到右岸，为您呈现最全面的专业评分与投资建议。</p>
+                </div>
+            </div>
+            <div class="editorial-side">
+                <div class="editorial-card reveal reveal-delay-1">
+                    <div class="editorial-card-image">
+                        <img src="https://images.unsplash.com/photo-1566275529824-cca6d008f3da?w=300&q=80" alt="">
+                    </div>
+                    <div class="editorial-card-info">
+                        <span class="editorial-card-tag">葡萄酒知识</span>
+                        <h4 class="editorial-card-title">如何正确侍酒：温度、醒酒与酒具的选择</h4>
+                    </div>
+                </div>
+                <div class="editorial-card reveal reveal-delay-2">
+                    <div class="editorial-card-image">
+                        <img src="https://images.unsplash.com/photo-1516594915697-87eb3b1c14ea?w=300&q=80" alt="">
+                    </div>
+                    <div class="editorial-card-info">
+                        <span class="editorial-card-tag">名庄聚焦</span>
+                        <h4 class="editorial-card-title">走近柏图斯：右岸之王的传奇与魅力</h4>
+                    </div>
+                </div>
+                <div class="editorial-card reveal reveal-delay-3">
+                    <div class="editorial-card-image">
+                        <img src="https://images.unsplash.com/photo-1547595628-c61a29f496f0?w=300&q=80" alt="">
+                    </div>
+                    <div class="editorial-card-info">
+                        <span class="editorial-card-tag">餐酒搭配</span>
+                        <h4 class="editorial-card-title">米其林主厨的餐酒搭配秘诀大公开</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWSLETTER -->
+    <section class="newsletter reveal">
+        <p class="section-eyebrow">Newsletter</p>
+        <h2 class="section-title">订阅<em>臻选</em>资讯</h2>
+        <p class="newsletter-desc">第一时间获取限量佳酿发售通知、品鉴会邀请及独家会员权益</p>
+        <form class="newsletter-form" onsubmit="event.preventDefault();">
+            <input type="email" class="newsletter-input" placeholder="请输入您的邮箱地址">
+            <button type="submit" class="newsletter-btn">订阅</button>
+        </form>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="footer-logo">Maison <span>Noir</span></div>
+                <p class="footer-brand-text">传承百年匠心，甄选全球佳酿。Maison Noir 致力于为品位之士提供最卓越的葡萄酒体验。</p>
+                <div class="footer-social">
+                    <a href="#" aria-label="Instagram">In</a>
+                    <a href="#" aria-label="Facebook">Fb</a>
+                    <a href="#" aria-label="Pinterest">Pi</a>
+                    <a href="#" aria-label="WeChat">Wc</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-col-title">臻选佳酿</h4>
+                <a href="#">红葡萄酒</a>
+                <a href="#">白葡萄酒</a>
+                <a href="#">香槟与起泡酒</a>
+                <a href="#">限量珍酿</a>
+                <a href="#">礼盒套装</a>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-col-title">尊享服务</h4>
+                <a href="#">私人品鉴</a>
+                <a href="#">酒窖定制</a>
+                <a href="#">企业定制</a>
+                <a href="#">酒庄之旅</a>
+                <a href="#">葡萄酒投资</a>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-col-title">关于我们</h4>
+                <a href="#">品牌故事</a>
+                <a href="#">酿酒理念</a>
+                <a href="#">合作伙伴</a>
+                <a href="#">加入我们</a>
+                <a href="#">联系方式</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copy">© 2026 Maison Noir. All rights reserved.</p>
+            <div class="footer-payment">
+                <span>Visa</span>
+                <span>Mastercard</span>
+                <span>UnionPay</span>
+                <span>WeChat Pay</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const nav = document.querySelector('nav');
+        const reveals = document.querySelectorAll('.reveal');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 80) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.12,
+            rootMargin: '0px 0px -40px 0px'
+        });
+
+        reveals.forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
