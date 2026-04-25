@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat ~/.claude/mcp/notion*)",
+      "Bash(ls ~/.claude/.mcp*)",
+      "Read(//Users/haoyuluo/**)",
+      "mcp__notion__notion-search",
+      "mcp__notion__notion-create-pages"
+    ]
+  }
+}
