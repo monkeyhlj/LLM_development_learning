@@ -2,7 +2,7 @@
 
 Learning Demo Records：
 
-注：不同demo对应依赖环境可能有所不一样，都在对应demo的requirements文件中。
+*注：不同demo对应依赖环境可能有所不一样，都在对应demo的requirements文件中。*
 
 Catalogue：
 
@@ -20,9 +20,8 @@ Skills Advanced - Agent_skills_demo：still in progress...
 
 Project related - llm-developing-assistantgpt：still in progress...
 
-*后续有时间就会陆续更新。。。*
 
-目录结构：
+**目录结构：**
 ```
 LLM_development_learning/
 ├── .gitignore
