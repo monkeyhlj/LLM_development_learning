@@ -26,8 +26,48 @@ Project related - llm-developing-assistantgpt：still in progress...
 LLM_development_learning/
 ├── .gitignore
 ├── README.md
+├── Agent_demo/
+│   └── test.ipynb
 ├── Agent_skills_demo/
 │   └── test.ipynb
+├── LangChain/
+│   └── test.ipynb
+├── LangGraph/
+│   ├── project1/
+│   │   ├── langgrapg01-入门和组件.ipynb
+│   │   ├── langgraph02-构筑有记忆能恢复的智能体.ipynb
+│   │   ├── langgraph03-人机协作与历史回溯.ipynb
+│   │   ├── langgraph04-多智能体系统.ipynb
+│   │   ├── requirements.txt
+│   │   ├── checkpoints.db
+│   │   ├── content_review.db
+│   │   ├── personal_assistant.db
+│   │   ├── pipeline.db
+│   │   └── demo-agent/
+│   │       ├── .env.example
+│   │       ├── .gitignore
+│   │       ├── LICENSE
+│   │       ├── Makefile
+│   │       ├── README.md
+│   │       ├── langgraph.json
+│   │       ├── pyproject.toml
+│   │       ├── uv.lock
+│   │       ├── src/
+│   │       │   └── agent/
+│   │       │       ├── __init__.py
+│   │       │       └── graph.py
+│   │       ├── static/
+│   │       │   └── studio_ui.png
+│   │       └── tests/
+│   │           ├── conftest.py
+│   │           ├── integration_tests/
+│   │           │   ├── __init__.py
+│   │           │   └── test_graph.py
+│   │           └── unit_tests/
+│   │               ├── __init__.py
+│   │               └── test_configuration.py
+│   └── project2/
+│       └── test.ipynb
 ├── LLM_demo/
 │   ├── 01_LLM.ipynb
 │   ├── 02_LLM_local_ollama.ipynb
@@ -38,32 +78,22 @@ LLM_development_learning/
 │   ├── city.csv
 │   ├── requirements.txt
 │   ├── 政策文件.txt
-│   ├── agent_env/                    (虚拟环境, 已忽略内容)
-│   ├── bge-small-zh-v1.5/            (Embedding模型文件, 已忽略内容)
-│   └── chromadb/                     (向量数据库, 已忽略内容)
-├── LangChain/
-│   └── test.ipynb
-├── LangGraph/
-│   ├── project1/
-│   │   ├── langgrapg01-入门和组件.ipynb
-│   │   ├── langgraph02-构筑有记忆能恢复的智能体.ipynb
-│   │   ├── langgraph03-人机协作.ipynb
-│   │   ├── requirements.txt
-│   │   ├── agent_env/                (虚拟环境, 已忽略内容)
-│   │   ├── checkpoints.db
-│   │   ├── personal_assistant.db
-│   │   └── pipeline.db
-│   └── project2/
-│       └── test.ipynb
+│   ├── bge-small-zh-v1.5/            (Embedding模型文件)
+│   │   ├── README.md
+│   │   ├── config.json
+│   │   ├── tokenizer.json
+│   │   ├── tokenizer_config.json
+│   │   ├── vocab.txt
+│   │   └── ...
+│   └── chromadb/                     (向量数据库)
 ├── RAG_demo/
 │   ├── .env
 │   ├── requirements.txt
 │   ├── deepseek_faiss_搭建本地知识库检索.ipynb
 │   ├── qwen-agent-multi-files.ipynb
-│   ├── agent_env/                    (虚拟环境, 已忽略内容)
-│   ├── local_rag_chroma_db/          (向量数据库, 已忽略内容)
+│   ├── local_rag_chroma_db/          (向量数据库)
 │   ├── docs/
-│   │   ├── 各种PDF及TXT文件
+│   │   ├── 各种资料文件txt，pdf等
 │   ├── Internet_docs/
 │   │   ├── Lecture 1 Overview.ipynb
 │   │   ├── Lecture 2 Indexing.ipynb
@@ -80,7 +110,7 @@ LLM_development_learning/
 │   │   ├── Lecture 13 ColBert.ipynb
 │   │   ├── Lecture 14 Re-ranking.ipynb
 │   │   ├── Lecture 15 CRAG.ipynb
-│   │   ├── vector_embedding_and_similarity.ipynb
+│   │   ├── vectorEmbedding_and_similarity.ipynb
 │   │   ├── 文本向量化.py
 │   │   ├── 文档切割.ipynb
 │   │   ├── RAG优化技巧.pdf
@@ -99,12 +129,23 @@ LLM_development_learning/
 │   │   │   ├── dialogue_retrieval_agent.py
 │   │   │   ├── dialogue_simulator.py
 │   │   │   ├── doc_qa/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── basic_doc_qa.py
+│   │   │   │   ├── parallel_doc_qa.py
+│   │   │   │   ├── parallel_doc_qa_member.py
+│   │   │   │   └── parallel_doc_qa_summary.py
 │   │   │   ├── fncall_agent.py
 │   │   │   ├── group_chat.py
 │   │   │   ├── group_chat_auto_router.py
 │   │   │   ├── group_chat_creator.py
 │   │   │   ├── human_simulator.py
 │   │   │   ├── keygen_strategies/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── gen_keyword.py
+│   │   │   │   ├── gen_keyword_with_knowledge.py
+│   │   │   │   ├── split_query.py
+│   │   │   │   ├── split_query_then_gen_keyword.py
+│   │   │   │   └── split_query_then_gen_keyword_with_knowledge.py
 │   │   │   ├── memo_assistant.py
 │   │   │   ├── react_chat.py
 │   │   │   ├── router.py
@@ -113,6 +154,10 @@ LLM_development_learning/
 │   │   │   ├── virtual_memory_agent.py
 │   │   │   ├── write_from_scratch.py
 │   │   │   └── writing/
+│   │   │       ├── __init__.py
+│   │   │       ├── continue_writing.py
+│   │   │       ├── expand_writing.py
+│   │   │       └── outline_writing.py
 │   │   ├── gui/
 │   │   │   ├── __init__.py
 │   │   │   ├── gradio_dep.py
@@ -120,12 +165,20 @@ LLM_development_learning/
 │   │   │   ├── utils.py
 │   │   │   ├── web_ui.py
 │   │   │   └── assets/
+│   │   │       ├── app.css
+│   │   │       ├── appBot.css
+│   │   │       ├── logo.jpeg
+│   │   │       └── user.jpeg
 │   │   ├── llm/
 │   │   │   ├── __init__.py
 │   │   │   ├── azure.py
 │   │   │   ├── base.py
 │   │   │   ├── function_calling.py
 │   │   │   ├── fncall_prompts/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── base_fncall_prompt.py
+│   │   │   │   ├── nous_fncall_prompt.py
+│   │   │   │   └── qwen_fncall_prompt.py
 │   │   │   ├── oai.py
 │   │   │   ├── openvino.py
 │   │   │   ├── qwen_dashscope.py
@@ -152,11 +205,19 @@ LLM_development_learning/
 │   │   │   ├── python_executor.py
 │   │   │   ├── retrieval.py
 │   │   │   ├── search_tools/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── base_search.py
+│   │   │   │   ├── front_page_search.py
+│   │   │   │   ├── hybrid_search.py
+│   │   │   │   ├── keyword_search.py
+│   │   │   │   └── vector_search.py
 │   │   │   ├── simple_doc_parser.py
 │   │   │   ├── storage.py
 │   │   │   ├── web_extractor.py
 │   │   │   ├── web_search.py
 │   │   │   ├── resource/
+│   │   │   │   ├── AlibabaPuHuiTi-3-45-Light.ttf
+│   │   │   │   └── code_interpreter_init_kernel.py
 │   │   │   └── amap_weather.py
 │   │   ├── utils/
 │   │   │   ├── __init__.py
