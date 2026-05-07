@@ -7,3 +7,7 @@ pip install -e .
 langgraph dev
 
 ---
+
+pip install sqlalchemy psycopg2-binary loguru
+
+langgraph dev --allow-blocking
