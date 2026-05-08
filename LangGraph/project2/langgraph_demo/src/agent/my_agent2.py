@@ -11,18 +11,29 @@ from agent.tools.tool_demo6 import runnable_tool
 
 # checkpointer = InMemorySaver()  # 短期记忆，保持到内存中
 
+# pip install langgraph-checkpoint-sqlite
+# conn = sqlite3.connect("chat_history.db", check_same_thread=False)
+# checkpointer = SqliteSaver(conn)
+
 DB_URI = 'postgresql://postgres:123123@localhost:5432/langgraph_db'
 
-with PostgresSaver.from_conn_string(DB_URI) as checkpointer:
-    checkpointer.setup() # 第一次运行加
+from langgraph.store.postgres import PostgresStore
+from langgraph.checkpoint.postgres import PostgresSaver
+
+
+with (
+    PostgresStore.from_conn_string(DB_URI) as store,
+    PostgresSaver.from_conn_string(DB_URI) as checkpointer,
+):
+    # checkpointer.setup()
+    store.setup()
     agent = create_react_agent(
         llm,
         tools=[runnable_tool],
         prompt="你是一个智能助手，尽可能的调用工具回答用户的问题",
         checkpointer=checkpointer,
+        store=store,
     )
-
-
 
     # 测试
     config = {
@@ -31,7 +42,8 @@ with PostgresSaver.from_conn_string(DB_URI) as checkpointer:
         }
     }
 
-    rest = list(agent.get_state(config))
+    # rest = list(agent.get_state(config))  # 从短期存储中，返回所有当前会话的上下文
+    rest = list(agent.get_state_history(config))#从长期存储中，返回所有当前会话的上下文
     print(rest)
 
     resp1 = agent.invoke(
