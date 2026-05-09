@@ -34,9 +34,9 @@ def get_user_name(
         ]
     })
 
+
 @tool
 def greet_user(state: Annotated[CustomState, InjectedState]) -> str:
     """在获取用户的username之后，生成祝福语句"""
     username = state['username']  # 从状态中获取用户名
     return f'祝贺你：{username}!'
-

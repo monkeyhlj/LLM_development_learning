@@ -2,15 +2,20 @@ from langgraph.prebuilt import create_react_agent
 from langgraph.prebuilt.chat_agent_executor import AgentState
 from langgraph.types import RunnableConfig
 from langgraph.graph.message import AnyMessage
-
-from agent.my_state import CustomState
-from src.agent.tools.tool_demo3 import calculate3
 from my_llm import llm
+from src.agent.tools.tool_demo9 import get_user_name, greet_user
+from src.agent.my_state import CustomState
+from src.agent.tools.tool_demo7 import MySearchTool
+from src.agent.tools.tool_demo3 import calculate3
 from src.agent.tools.tool_demo6 import runnable_tool
+
 
 def get_weather(city: str) -> str:
     """Get weather for a given city."""
     return f"It's always sunny in {city}!"
+
+
+my_tool = MySearchTool()
 
 
 # 提示词模板的函数：由用户传入内容，组成一个动态的系统提示词
@@ -18,23 +23,16 @@ def prompt(state: AgentState, config: RunnableConfig) -> list[AnyMessage]:
     user_name = config['configurable'].get('user_name', 'zs')
     print(user_name)
     system_message = f'你是一个智能助手，当前用户的名字是: {user_name}'
-    return [{'role': 'system', 'content': system_message}] + state['messages']
+    return [{'role': 'system', 'content': system_message}] + state.messages
 
 
 graph = create_react_agent(
     llm,
-    tools=[get_weather, calculate3, runnable_tool],
+    tools=[get_weather, calculate3, runnable_tool, my_tool, get_user_name, greet_user],
     # prompt="You are a helpful assistant"
     prompt=prompt,
-    state_schema=CustomState,# 指定自定义状态类
+    state_schema=CustomState,  # 指定自定义状态类
 )
-
-
-
-
-
-
-
 
 # """LangGraph single-node graph template.
 #
@@ -90,5 +88,3 @@ graph = create_react_agent(
 #     .add_edge("__start__", "call_model")
 #     .compile(name="New Graph")
 # )
-
-
