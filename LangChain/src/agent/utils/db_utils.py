@@ -1,7 +1,10 @@
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.exc import SQLAlchemyError
 from typing import List, Optional
-from log_utils import log
+from .log_utils import log
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 class PostgreSQLDatabaseManager:
@@ -184,13 +187,19 @@ class PostgreSQLDatabaseManager:
 
 
 if __name__ == '__main__':
-    # PostgreSQL 数据库连接配置
+    # PostgresSQL 数据库连接配置
+    username = os.getenv('PG_USERNAME')
+    password = os.getenv('PG_PASSWORD')
+    host = os.getenv('PG_HOST')
+    port = int(os.getenv('PG_PORT', 5432))
+    database = os.getenv('PG_DATABASE')
+    print(f"连接配置 - host: {host}, port: {port}, username: {username}, database: {database}")
     DB_CONFIG = {
-        "host": "localhost",
-        "port": 5432,
-        "username": "postgres",
-        "password": "123123",
-        "database": "test_db4"
+        "host": host,
+        "port": port,
+        "username": username,
+        "password": password,
+        "database": database
     }
 
     connection_string = f"postgresql://{DB_CONFIG['username']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}:{DB_CONFIG['port']}/{DB_CONFIG['database']}"
@@ -209,3 +218,4 @@ if __name__ == '__main__':
     if tables:
         schema = manager.get_table_schema([tables[0]])
         print("表结构:\n", schema)
+

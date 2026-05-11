@@ -5,13 +5,14 @@ src_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 if src_path not in sys.path:
     sys.path.insert(0, src_path)
 # 现在可以正常导入
-from agent.my_llm import llm
-
 from typing import List
 from langchain.agents import create_agent
 from langchain_core.tools import BaseTool
-from agent.tools.text_to_sql_tools import ListTablesTool, TableSchemaTool, SQLQueryTool, SQLQueryCheckerTool
-from agent.utils.db_utils import PostgreSQLDatabaseManager
+from src.agent.tools.text_to_sql_tools import ListTablesTool, TableSchemaTool, SQLQueryTool, SQLQueryCheckerTool
+from src.agent.utils.db_utils import PostgreSQLDatabaseManager
+from src.agent.my_llm import llm
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def get_tools(host: str, port: int, username: str, password: str, database: str) -> List[BaseTool]:
@@ -28,12 +29,17 @@ def get_tools(host: str, port: int, username: str, password: str, database: str)
 
 
 # 配置数据库连接信息
+username = os.getenv('PG_USERNAME', 'postgres')
+password = os.getenv('PG_PASSWORD', '')
+host = os.getenv('PG_HOST', '127.0.0.1')
+port = int(os.getenv('PG_PORT', '5432'))
+database = os.getenv('PG_DATABASE', 'test_db')
 tools = get_tools(
-    host='127.0.0.1',
-    port=5432,
-    username='postgres',
-    password='123123',
-    database='test_db4'
+    host=host,
+    port=port,
+    username=username,
+    password=password,
+    database=database
 )
 
 system_prompt = """
@@ -56,8 +62,8 @@ system_prompt = """
 开始处理问题时，你应该始终先查看数据库中有哪些表可以查询。不要跳过这一步。
 然后，你应该查询最相关的模式结构信息。
 """.format(
-    dialect='PostgreSQL',  # 数据库方言
-    top_k=5,               # 默认返回结果的最大数量
+    dialect='PostgresSQL',  # 数据库方言
+    top_k=5,  # 默认返回结果的最大数量
 )
 
 # 创建 Agent
@@ -67,13 +73,9 @@ agent = create_agent(
     system_prompt=system_prompt,
 )
 
-
-# # 本地测试
-# for step in agent.stream(
-#     input={'messages': [{'role': 'user', 'content': '数据库中有多少个部门，每个部门都有哪些员工？'}]},
-#     stream_mode="values"
-# ):
-#     step['messages'][-1].pretty_print()  # 打印每一步的输出
-
-
-
+# 本地测试
+for step in agent.stream(
+    input={'messages': [{'role': 'user', 'content': '数据库中有多少个用户，每个用户都有哪些订单？'}]},
+    stream_mode="values"
+):
+    step['messages'][-1].pretty_print()  # 打印每一步的输出

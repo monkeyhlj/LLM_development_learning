@@ -1,15 +1,23 @@
+import json
+import sys
+import os
+from datetime import datetime
+
 from langchain_core.tools import BaseTool
 from pydantic import create_model, Field
 from typing import Optional, List
-from agent.utils.db_utils import PostgreSQLDatabaseManager
-from utils.log_utils import log
+from src.agent.utils.db_utils import PostgreSQLDatabaseManager
+from src.agent.utils.log_utils import log
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class ListTablesTool(BaseTool):
     """列出数据库中的所有表及其描述信息"""
 
     name: str = "sql_db_list_tables"
-    description: str = "列出PostgreSQL数据库中的所有表名及其描述信息。当需要了解数据库中有哪些表时使用。"
+    description: str = "列出PostgresSQL数据库中的所有表名及其描述信息。当需要了解数据库中有哪些表时使用。"
 
     db_manager: PostgreSQLDatabaseManager
 
@@ -42,19 +50,19 @@ class ListTablesTool(BaseTool):
 
     async def _arun(self) -> str:
         """异步执行"""
-        return self._run()    
+        return self._run()
 
 
 class TableSchemaTool(BaseTool):
     """获取表的模式信息"""
 
     name: str = "sql_db_schema"
-    description: str = "获取PostgreSQL数据库中指定表的详细模式信息，包括列定义、主键、外键等。输入应为表名列表，以获取所有表信息。"
+    description: str = "获取PostgresSQL数据库中指定表的详细模式信息，包括列定义、主键、外键等。输入应为表名列表，以获取所有表信息。"
 
     db_manager: PostgreSQLDatabaseManager
 
     def __init__(self, db_manager: PostgreSQLDatabaseManager):
-        super().__init__()
+        super().__init__(db_manager=db_manager)  # 将 db_manager 传递给父类
         self.db_manager = db_manager
         # 动态创建参数 schema
         self.args_schema = create_model(
@@ -85,7 +93,7 @@ class SQLQueryTool(BaseTool):
     db_manager: PostgreSQLDatabaseManager
 
     def __init__(self, db_manager: PostgreSQLDatabaseManager):
-        super().__init__()
+        super().__init__(db_manager=db_manager)  # 将 db_manager 传递给父类
         self.db_manager = db_manager
         # 修正：参数应该是 query，而不是 table_names
         self.args_schema = create_model(
@@ -101,9 +109,14 @@ class SQLQueryTool(BaseTool):
             if isinstance(result, list):
                 if not result:
                     return "查询执行成功，但未返回任何结果。"
+
                 # 限制输出长度，避免 token 过多
-                import json
-                result_str = json.dumps(result, ensure_ascii=False, indent=2)
+                def custom_serializer(obj):
+                    if isinstance(obj, datetime):
+                        return obj.isoformat()  # 转换为 ISO 8601 格式字符串
+                    raise TypeError(f"Type {type(obj)} not serializable")
+
+                result_str = json.dumps(result, ensure_ascii=False, indent=2, default=custom_serializer)
                 if len(result_str) > 10000:
                     result_str = result_str[:10000] + "\n... (输出过长，已截断)"
                 return result_str
@@ -126,7 +139,7 @@ class SQLQueryCheckerTool(BaseTool):
     db_manager: PostgreSQLDatabaseManager
 
     def __init__(self, db_manager: PostgreSQLDatabaseManager):
-        super().__init__()
+        super().__init__(db_manager=db_manager)  # 将 db_manager 传递给父类
         self.db_manager = db_manager
         self.args_schema = create_model(
             "SQLQueryCheckerToolArgs",
@@ -148,26 +161,26 @@ class SQLQueryCheckerTool(BaseTool):
 
 
 if __name__ == '__main__':
-    # PostgreSQL 数据库连接配置
-    username = 'postgres'
-    password = '123123'
-    host = '127.0.0.1'
-    port = 5432
-    database = 'test_db'
+    # PostgresSQL 数据库连接配置（从环境变量读取）
+    username = os.getenv('PG_USERNAME', 'postgres')
+    password = os.getenv('PG_PASSWORD', '')
+    host = os.getenv('PG_HOST', '127.0.0.1')
+    port = int(os.getenv('PG_PORT', '5432'))
+    database = os.getenv('PG_DATABASE', 'test_db')
+    # print(f"连接配置 - 用户名: {username}, 主机: {host}, 端口: {port}, 数据库: {database}")
 
-    # 构建 PostgreSQL 连接字符串
+    # 构建 PostgresSQL 连接字符串
     connection_string = f"postgresql://{username}:{password}@{host}:{port}/{database}"
     manager = PostgreSQLDatabaseManager(connection_string)
-    tool = ListTablesTool(db_manager=manager)
-    print(tool.invoke({}))
+
     # tool = ListTablesTool(db_manager=manager)  # 测试第一个工具
     # print(tool.invoke({}))
 
     # tool = TableSchemaTool(db_manager=manager)  # 测试第二个工具
-    # print(tool.invoke({'table_names': ['t_usermodel', 't_rolemodel']}))
+    # print(tool.invoke({'table_names': ['users', 'orders']}))
 
     # tool = SQLQueryTool(db_manager=manager)  # 测试第三个工具
-    # print(tool.invoke({'query': 'select * from t_usermodel'}))
+    # print(tool.invoke({'query': 'select count(*) from users'}))
 
-    # tool = SQLQueryCheckerTool(db_manager=manager)  # 测试第四个工具
-    # print(tool.invoke({'query': 'w\t_usermodel'}))
+    tool = SQLQueryCheckerTool(db_manager=manager)  # 测试第四个工具
+    print(tool.invoke({'query': 'select count(*) from users'}))
