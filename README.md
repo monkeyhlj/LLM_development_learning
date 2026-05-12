@@ -8,9 +8,9 @@ Catalogue：
 
 LangChain related - LLM_demo对应博客文档：[AI Agent开发课程笔记记录 - 基础篇-CSDN博客](https://blog.csdn.net/hhhmonkey/article/details/160315195?spm=1001.2014.3001.5501)
 
-LangChain Advanced：still in progress...
+LangChain Advanced：[LangChain - V1.0-CSDN博客](https://blog.csdn.net/hhhmonkey/article/details/160770038?spm=1001.2014.3001.5501)
 
-LangGraph Advanced：[基于LangGraph的Agent](https://blog.csdn.net/hhhmonkey/article/details/160796006?spm=1001.2014.3001.5501)
+LangGraph Advanced：[基于LangGraph的Agent-CSDN博客](https://blog.csdn.net/hhhmonkey/article/details/160796006?spm=1001.2014.3001.5501)
 
 RAG related - RAG_demo对应博客文档：[AI Agent开发课程笔记记录 - 提升篇 About RAG-CSDN博客](https://blog.csdn.net/hhhmonkey/article/details/160339585?spm=1001.2014.3001.5501)
 
@@ -20,8 +20,8 @@ Skills Advanced - Agent_skills_demo：still in progress...
 
 Project related - llm-developing-assistantgpt：still in progress...
 
-
 **目录结构：**
+
 ```
 LLM_development_learning/
 ├── .gitignore

@@ -2,7 +2,7 @@ import json
 import sys
 import os
 from datetime import datetime
-
+from decimal import Decimal
 from langchain_core.tools import BaseTool
 from pydantic import create_model, Field
 from typing import Optional, List
@@ -112,8 +112,11 @@ class SQLQueryTool(BaseTool):
 
                 # 限制输出长度，避免 token 过多
                 def custom_serializer(obj):
+                    """自定义序列化器，处理无法序列化的类型"""
+                    if isinstance(obj, Decimal):
+                        return float(obj)  # 将 Decimal 转换为 float
                     if isinstance(obj, datetime):
-                        return obj.isoformat()  # 转换为 ISO 8601 格式字符串
+                        return obj.isoformat()  # 将 datetime 转换为 ISO 8601 格式字符串
                     raise TypeError(f"Type {type(obj)} not serializable")
 
                 result_str = json.dumps(result, ensure_ascii=False, indent=2, default=custom_serializer)

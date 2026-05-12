@@ -1,10 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Agent 智能查询助手</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
+    <div class="app-container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <h2>SQL Agent</h2>
+                </div>
+                <p class="subtitle">自然语言数据库查询</p>
+            </div>
 
+            <div class="sidebar-content">
+                <div class="info-section">
+                    <h3><i class="fas fa-database"></i> 数据库信息</h3>
+                    <div id="dbStatus" class="status-badge">
+                        <i class="fas fa-circle"></i> 连接中...
+                    </div>
+                    <button id="refreshTablesBtn" class="btn-outline">
+                        <i class="fas fa-sync-alt"></i> 刷新表列表
+                    </button>
+                    <div id="tablesList" class="tables-list">
+                        <!-- 动态加载表列表 -->
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h3><i class="fas fa-history"></i> 会话历史</h3>
+                    <div id="historyList" class="history-list">
+                        <!-- 动态加载历史记录 -->
+                    </div>
+                    <button id="clearHistoryBtn" class="btn-text">
+                        <i class="fas fa-trash"></i> 清空历史
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 主聊天区域 -->
+        <main class="chat-main">
+            <div class="chat-header">
+                <div class="header-title">
+                    <i class="fas fa-comments"></i>
+                    <h1>智能对话查询</h1>
+                </div>
+                <div class="header-controls">
+                    <button id="streamToggle" class="control-btn" title="切换流式输出">
+                        <i class="fas fa-stream"></i>
+                        <span>流式输出</span>
+                    </button>
+                    <button id="clearChatBtn" class="control-btn" title="清空对话">
+                        <i class="fas fa-trash-alt"></i>
+                        <span>清空对话</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="chatMessages" class="chat-messages">
+                <div class="welcome-message">
+                    <i class="fas fa-database"></i>
+                    <h3>欢迎使用 SQL Agent</h3>
+                    <p>我可以帮助您用自然语言查询数据库，例如：</p>
+                    <div class="example-queries">
+                        <div class="example" data-query="数据库中有哪些表？">
+                            <i class="fas fa-table"></i> 数据库中有哪些表？
+                        </div>
+                        <div class="example" data-query="查询所有用户信息">
+                            <i class="fas fa-users"></i> 查询所有用户信息
+                        </div>
+                        <div class="example" data-query="统计每个部门的员工数量">
+                            <i class="fas fa-chart-bar"></i> 统计每个部门的员工数量
+                        </div>
+                        <div class="example" data-query="找出工资最高的前5名员工">
+                            <i class="fas fa-trophy"></i> 找出工资最高的前5名员工
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area">
+                <div class="input-wrapper">
+                    <textarea id="userInput" placeholder="输入您的问题... (按 Enter 发送，Shift+Enter 换行)" rows="3"></textarea>
+                    <div class="input-actions">
+                        <div class="input-info">
+                            <i class="fas fa-info-circle"></i>
+                            <span id="inputHint"></span>
+                        </div>
+                        <button id="sendBtn" class="btn-primary">
+                            <i class="fas fa-paper-plane"></i> 发送
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+    <script src="/static/script.js"></script>
 </body>
 </html>
